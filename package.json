@@ -1,0 +1,26 @@
+{
+  "name": "redux-thunk-generators",
+  "description": "Thunk middleware for Redux supporting generators",
+  "version": "0.1.0",
+  "author": {
+    "name": "DoAsync",
+    "email": "doasync@gmail.com"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/doasync/redux-thunk-generators.git"
+  },
+  "keywords": [
+    "redux",
+    "thunk",
+    "middleware",
+    "redux-middleware",
+    "flux"
+    "generators",
+    "async",
+    "iteration",
+    "saga",
+  ],
+  "license": "MIT"
+}
