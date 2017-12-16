@@ -20,7 +20,7 @@
     "generators",
     "async",
     "iteration",
-    "saga",
+    "saga"
   ],
   "license": "MIT"
 }
