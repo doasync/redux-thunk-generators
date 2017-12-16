@@ -16,7 +16,7 @@
     "thunk",
     "middleware",
     "redux-middleware",
-    "flux"
+    "flux",
     "generators",
     "async",
     "iteration",
