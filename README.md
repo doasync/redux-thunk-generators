@@ -23,7 +23,7 @@ You can just remplace *redux-thunk* import with *redux-thunk-generators*
 
 ## Usage
 
-Just yield actions! Forget about dispatch. Async action? Yield promise and get the response!
+Just yield action objects to dispatch them! Forget about wrapping each time (but you can). Async action? Yield promise and get the response! Feels like await ;)
 
 ```javascript
 export const signIn = (payload) => function* () {
@@ -39,7 +39,9 @@ export const signIn = (payload) => function* () {
   }
 };
 ```
-But y'd better use async generators for that, they are supported too!
+
+But y'd better use async generators for that, they are supported too (not by your babel preset though... ;)
+
 ```javascript
 export const signIn = (payload) => async function* () {
   const { username, password } = payload;
@@ -48,6 +50,7 @@ export const signIn = (payload) => async function* () {
     const response = await axios.post(API_SIGN_IN, { username, password });
     yield signInEnd();
     yield signInSuccess(response.data);
+    return username;
   } catch (error) {
     yield signInEnd();
     yield signInError(error);
@@ -55,13 +58,17 @@ export const signIn = (payload) => async function* () {
 };
 ```
 
+You can use fetch API of coarse (really?)
+
 Return something from generator and get it with .then:
 
 ```javascript
-signIn().then(something => {
-  console.log(something)
+signIn().then(username => {
+  console.log(username)
 });
 ```
+
+You will know when your action is done. Yep, nice)
 
 See source code for more information ;)
 
