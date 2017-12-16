@@ -19,11 +19,12 @@ You can use generators instead of functions. Fully compartible with redux-thunk!
 npm install --save redux-thunk-generators
 ```
 
-You can just remplace *redux-thunk* import with *redux-thunk-generators*
+Just replace **redux-thunk** import with **redux-thunk-generators**
 
 ## Usage
 
-Just yield action objects to dispatch them! Forget about wrapping each time (but you can). Async action? Yield promise and get the response! Feels like await ;)
+Yield action objects to dispatch them! Forget about wrapping each time with `dispatch` (but you can).
+Async actions? Yield promise and get the response! Feels just like *await* :)
 
 ```javascript
 export const signIn = (payload) => function* () {
@@ -40,7 +41,7 @@ export const signIn = (payload) => function* () {
 };
 ```
 
-But y'd better use async generators for that, they are supported too (not by your babel preset though... ;)
+You'd better use async generators for that, they are supported too (not by your babel preset though... ;)
 
 ```javascript
 export const signIn = (payload) => async function* () {
@@ -58,9 +59,9 @@ export const signIn = (payload) => async function* () {
 };
 ```
 
-You can use fetch API of coarse (really?)
+You can use fetch API of coarse.
 
-Return something from generator and get it with .then:
+If you want to do something when your action is done, `return` some data from generator and get it with .then:
 
 ```javascript
 signIn().then(username => {
@@ -68,10 +69,10 @@ signIn().then(username => {
 });
 ```
 
-You will know when your action is done. Yep, nice)
-
-See source code for more information ;)
+Yep, nice) Tell your friend.
 
 ## Author
 
 @doasync
+
+See source code for more information.
