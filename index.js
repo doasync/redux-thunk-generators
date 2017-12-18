@@ -4,38 +4,31 @@ function createThunkMiddleware (extraArgument) {
       const result = action(dispatch, getState, extraArgument);
 
       if (isNextable(result)) {
-        return handleIterator(result, dispatch);
+        return handleIterator(result, dispatch, getState);
       }
 
       return result;
+    }
+
+    if (isNextable(action)) {
+      return handleIterator(action, dispatch, getState);
     }
 
     return next(action);
   };
 }
 
-async function handleIterator (iterator, dispatch) {
-  let { done, value } = await iterator.next();
+async function handleIterator (iterator, dispatch, getState) {
+  let { done, value } = await iterator.next(getState());
 
   while (done === false) {
-    if (isThenable(value)) {
-      value = await value;
-    }
-    if (isActionLike(value)) {
+    if (value !== undefined) {
       dispatch(value);
     }
-    ({ done, value } = await iterator.next(value));
+    ({ done, value } = await iterator.next(getState()));
   }
 
   return value;
-}
-
-function isActionLike (obj) {
-  return (typeof obj === 'object' && typeof obj.type !== 'undefined') || typeof obj === 'function';
-}
-
-function isThenable (obj) {
-  return typeof obj === 'object' && typeof obj.then === 'function';
 }
 
 function isNextable (obj) {

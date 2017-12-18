@@ -1,6 +1,6 @@
 # Redux thunk + generators
 
-You can use generators instead of functions. Fully compartible with redux-thunk!
+You can use generators as action creators or thunks. Fully compartible with redux-thunk!
 
 [![NPM Version][npm-image]][npm-url] ![NPM Downloads][downloads-image] [![GitHub issues][issues-image]][issues-url] [![Licence][license-image]][license-url]
 
@@ -23,29 +23,27 @@ Just replace **redux-thunk** import with **redux-thunk-generators**
 
 ## Usage
 
-Yield action objects to dispatch them! Forget about wrapping each time with `dispatch` (but you can).
-Async actions? Yield promise and get the response! Feels just like *await* :)
-
+You can use generators (sync or async) as thunks:
 ```javascript
-export const signIn = (payload) => function* () {
-  const { username, password } = payload;
-  yield signInStart();
-  try {
-    const response = yield axios.post(API_SIGN_IN, { username, password });
-    yield signInEnd();
-    yield signInSuccess(response.data);
-  } catch (error) {
-    yield signInEnd();
-    yield signInError(error);
-  }
-};
+export const signIn = payload => async function* (dispatch, getState, extraArgument) {
+  /* body */
+}
 ```
 
-You'd better use async generators for that, they are supported too (not by your babel preset though... ;)
+Or as action creators:
+```javascript
+export const signIn = async function* (payload) {
+  /* body */
+}
+```
+
+Yield action objects to dispatch them! Forget about wrapping each time with `dispatch`:
 
 ```javascript
-export const signIn = (payload) => async function* () {
+// Action creator
+export const signIn = async function* (payload) {
   const { username, password } = payload;
+  let state = yield;  // yield always returns (new) state
   yield signInStart();
   try {
     const response = await axios.post(API_SIGN_IN, { username, password });
@@ -58,8 +56,6 @@ export const signIn = (payload) => async function* () {
   }
 };
 ```
-
-You can use fetch API of coarse.
 
 If you want to do something when your action is done, `return` some data from generator and get it with .then:
 
@@ -74,5 +70,3 @@ Yep, nice) Tell your friend.
 ## Author
 
 @doasync
-
-See source code for more information.
