@@ -25,16 +25,12 @@ Just replace **redux-thunk** import with **redux-thunk-generators**
 
 You can use generators (sync or async) as thunks:
 ```javascript
-export const signIn = payload => async function* (dispatch, getState, extraArgument) {
-  /* body */
-}
+export const signIn = payload => async function* (dispatch, getState, extraArgument) { /* ... */ }
 ```
 
-Or as action creators:
+Or use generators as action creators:
 ```javascript
-export const signIn = async function* (payload) {
-  /* body */
-}
+export const signIn = async function* (payload) { /* ... */ }
 ```
 
 Yield action objects to dispatch them! Forget about wrapping each time with `dispatch`:
@@ -43,7 +39,7 @@ Yield action objects to dispatch them! Forget about wrapping each time with `dis
 // Action creator
 export const signIn = async function* (payload) {
   const { username, password } = payload;
-  let state = yield;  // yield always returns (new) state
+  let state = yield; // won't be dispatched, just returns current state
   yield signInStart();
   try {
     const response = await axios.post(API_SIGN_IN, { username, password });
@@ -56,6 +52,8 @@ export const signIn = async function* (payload) {
   }
 };
 ```
+
+`yield` always returns a (new) state.
 
 If you want to do something when your action is done, `return` some data from generator and get it with .then:
 
